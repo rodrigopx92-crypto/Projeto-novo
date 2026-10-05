@@ -1,0 +1,527 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Painel - Clínica Bem-Estar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app">
+        <aside class="sidebar">
+            <h1>Clínica Bem-Estar<span>Gestão</span></h1>
+            <nav id="menu">
+                <a href="#" data-tela="dashboard" class="active"><span class="icon">📊</span><span>Dashboard</span></a>
+                <a href="#" data-tela="agendamentos" data-perm="agendamentos"><span class="icon">📅</span><span>Agendamentos</span></a>
+                <a href="#" data-tela="pacientes" data-perm="pacientes"><span class="icon">👥</span><span>Pacientes</span></a>
+                <a href="#" data-tela="profissionais" data-perm="profissionais"><span class="icon">👨‍⚕️</span><span>Profissionais</span></a>
+                <a href="#" data-tela="servicos" data-perm="servicos"><span class="icon">💼</span><span>Serviços</span></a>
+                <a href="#" data-tela="estoque" data-perm="estoque"><span class="icon">📦</span><span>Estoque</span></a>
+                <a href="#" data-tela="movimentacoes" data-perm="estoque"><span class="icon">🔄</span><span>Movimentações</span></a>
+                <a href="#" data-tela="fornecedores" data-perm="estoque"><span class="icon">🏢</span><span>Fornecedores</span></a>
+                <a href="#" data-tela="financeiro" data-perm="financeiro"><span class="icon">💰</span><span>Financeiro</span></a>
+                <a href="#" data-tela="horarios" data-perm="config"><span class="icon">⏰</span><span>Horários</span></a>
+                <a href="#" data-tela="relatorios" data-perm="relatorios"><span class="icon">📈</span><span>Relatórios</span></a>
+                <a href="#" data-tela="usuarios" data-perm="usuarios"><span class="icon">👤</span><span>Usuários</span></a>
+                <a href="#" data-tela="logs" data-perm="logs"><span class="icon">📋</span><span>Log de Atividades</span></a>
+            </nav>
+            <div class="sair">
+                <a href="#" id="btnSair"><span class="icon">🚪</span><span>Sair</span></a>
+            </div>
+        </aside>
+
+        <main class="conteudo">
+            <div class="topbar">
+                <h2 id="tituloTela">Dashboard</h2>
+                <div class="user-info">
+                    <div class="notif-wrapper">
+                        <button class="btn-notif" id="btnNotif" title="Notificações">
+                            🔔
+                            <span class="notif-badge" id="notifBadge">0</span>
+                        </button>
+                        <div class="notif-painel" id="notifPainel">
+                            <div class="notif-painel-header">
+                                <h4>🔔 Notificações</h4>
+                                <button class="btn btn-sm btn-info" id="btnMarcarLidas">Marcar vistas</button>
+                            </div>
+                            <div id="notifLista"></div>
+                        </div>
+                    </div>
+                    <div class="user-bloco">
+                        <span id="nomeUsuario">admin</span>
+                        <small id="perfilUsuario">admin</small>
+                    </div>
+                    <div class="avatar" id="avatar">A</div>
+                </div>
+            </div>
+
+            <div class="banner-notif" id="bannerNotif">
+                <span class="icone">⚠️</span>
+                <span class="msg" id="bannerMsg"></span>
+                <button class="fechar" id="bannerFechar">✕</button>
+            </div>
+
+            <!-- DASHBOARD -->
+            <section class="tela ativa" id="tela-dashboard">
+                <div class="cards-grid">
+                    <div class="card-stat"><div class="icon-big azul">📅</div><div><h3 id="statAgendamentos">0</h3><p>Agendamentos hoje</p></div></div>
+                    <div class="card-stat"><div class="icon-big verde">💰</div><div><h3 id="statFaturamentoHoje">R$ 0</h3><p>Faturamento hoje</p></div></div>
+                    <div class="card-stat"><div class="icon-big laranja">📦</div><div><h3 id="statEstoqueBaixo">0</h3><p>Estoque baixo</p></div></div>
+                    <div class="card-stat"><div class="icon-big vermelho">⚠️</div><div><h3 id="statVencendo">0</h3><p>Vencendo (30d)</p></div></div>
+                </div>
+                <div class="cards-grid">
+                    <div class="card-stat"><div class="icon-big verde">📈</div><div><h3 id="statFaturamentoMes">R$ 0</h3><p>Faturamento do mês</p></div></div>
+                    <div class="card-stat"><div class="icon-big laranja">⏳</div><div><h3 id="statAReceber">R$ 0</h3><p>A receber</p></div></div>
+                    <div class="card-stat"><div class="icon-big roxo">👥</div><div><h3 id="statPacientes">0</h3><p>Pacientes</p></div></div>
+                    <div class="card-stat"><div class="icon-big azul">📥</div><div><h3 id="statMovHoje">0</h3><p>Movimentações hoje</p></div></div>
+                </div>
+                <div class="card">
+                    <h3>📅 Próximos Agendamentos</h3>
+                    <table>
+                        <thead><tr><th>Data</th><th>Hora</th><th>Paciente</th><th>Profissional</th><th>Serviço</th><th>Status</th></tr></thead>
+                        <tbody id="tabelaProximos"></tbody>
+                    </table>
+                    <p class="vazio-msg" id="vazioProximos">Nenhum agendamento futuro.</p>
+                </div>
+                <div class="card">
+                    <h3>💰 Últimos Pagamentos</h3>
+                    <table>
+                        <thead><tr><th>Data</th><th>Paciente</th><th>Serviço</th><th>Valor</th><th>Forma</th><th>Status</th></tr></thead>
+                        <tbody id="tabelaUltimosPagamentos"></tbody>
+                    </table>
+                    <p class="vazio-msg" id="vazioUltimosPagamentos">Nenhum pagamento registrado.</p>
+                </div>
+            </section>
+
+            <!-- AGENDAMENTOS -->
+            <section class="tela" id="tela-agendamentos">
+                <div class="card">
+                    <h3>Novo Agendamento</h3>
+                    <form id="formAgendamento" class="form-grid">
+                        <div><label>Paciente</label><select id="agPaciente" required></select></div>
+                        <div><label>Profissional</label><select id="agProfissional" required></select></div>
+                        <div><label>Serviço</label><select id="agServico" required></select></div>
+                        <div><label>Data</label><input type="date" id="agData" required></div>
+                        <div><label>Hora</label><input type="time" id="agHora" required></div>
+                        <div><label>Status</label>
+                            <select id="agStatus">
+                                <option value="agendado">Agendado</option>
+                                <option value="confirmado">Confirmado</option>
+                                <option value="realizado">Realizado</option>
+                                <option value="cancelado">Cancelado</option>
+                            </select>
+                        </div>
+                        <div class="full"><label>Observações</label><input type="text" id="agObs" placeholder="Opcional"></div>
+                        <div><button type="submit" class="btn btn-success">➕ Agendar</button></div>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>📋 Lista de Agendamentos</h3>
+                    <table>
+                        <thead><tr><th>Data</th><th>Hora</th><th>Paciente</th><th>Profissional</th><th>Serviço</th><th>Status</th><th>Ações</th></tr></thead>
+                        <tbody id="tabelaAgendamentos"></tbody>
+                    </table>
+                    <p class="vazio-msg" id="vazioAgendamentos">Nenhum agendamento cadastrado.</p>
+                </div>
+            </section>
+
+            <!-- PACIENTES -->
+            <section class="tela" id="tela-pacientes">
+                <div class="card">
+                    <h3>Novo Paciente</h3>
+                    <form id="formPaciente" class="form-grid">
+                        <div><label>Nome</label><input type="text" id="pacNome" required></div>
+                        <div><label>CPF</label><input type="text" id="pacCpf" placeholder="000.000.000-00"></div>
+                        <div><label>Telefone</label><input type="text" id="pacTelefone" required></div>
+                        <div><label>E-mail</label><input type="email" id="pacEmail"></div>
+                        <div><label>Nascimento</label><input type="date" id="pacNascimento"></div>
+                        <div class="full"><label>Endereço</label><input type="text" id="pacEndereco"></div>
+                        <div><button type="submit" class="btn btn-success">➕ Cadastrar</button></div>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>👥 Pacientes Cadastrados</h3>
+                    <table>
+                        <thead><tr><th>Nome</th><th>Telefone</th><th>E-mail</th><th>Nascimento</th><th>Ações</th></tr></thead>
+                        <tbody id="tabelaPacientes"></tbody>
+                    </table>
+                    <p class="vazio-msg" id="vazioPacientes">Nenhum paciente cadastrado.</p>
+                </div>
+            </section>
+
+            <!-- PROFISSIONAIS -->
+            <section class="tela" id="tela-profissionais">
+                <div class="card">
+                    <h3>Novo Profissional</h3>
+                    <form id="formProfissional" class="form-grid">
+                        <div><label>Nome</label><input type="text" id="proNome" required></div>
+                        <div><label>Especialidade</label><input type="text" id="proEspecialidade" required></div>
+                        <div><label>Telefone</label><input type="text" id="proTelefone"></div>
+                        <div><label>E-mail</label><input type="email" id="proEmail"></div>
+                        <div><button type="submit" class="btn btn-success">➕ Cadastrar</button></div>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>👨‍⚕️ Profissionais Cadastrados</h3>
+                    <table>
+                        <thead><tr><th>Nome</th><th>Especialidade</th><th>Telefone</th><th>E-mail</th><th>Ações</th></tr></thead>
+                        <tbody id="tabelaProfissionais"></tbody>
+                    </table>
+                    <p class="vazio-msg" id="vazioProfissionais">Nenhum profissional cadastrado.</p>
+                </div>
+            </section>
+
+            <!-- SERVIÇOS -->
+            <section class="tela" id="tela-servicos">
+                <div class="card">
+                    <h3>Novo Serviço</h3>
+                    <form id="formServico" class="form-grid">
+                        <div><label>Nome</label><input type="text" id="serNome" required></div>
+                        <div><label>Preço (R$)</label><input type="number" step="0.01" id="serPreco" required></div>
+                        <div><label>Duração (min)</label><input type="number" id="serDuracao" value="30"></div>
+                        <div class="full"><label>Descrição</label><input type="text" id="serDescricao"></div>
+                        <div><button type="submit" class="btn btn-success">➕ Cadastrar</button></div>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>💼 Serviços Cadastrados</h3>
+                    <table>
+                        <thead><tr><th>Nome</th><th>Preço</th><th>Duração</th><th>Descrição</th><th>Ações</th></tr></thead>
+                        <tbody id="tabelaServicos"></tbody>
+                    </table>
+                    <p class="vazio-msg" id="vazioServicos">Nenhum serviço cadastrado.</p>
+                </div>
+            </section>
+
+            <!-- ESTOQUE -->
+            <section class="tela" id="tela-estoque">
+                <div class="card">
+                    <h3>Novo Item no Estoque</h3>
+                    <form id="formEstoque" class="form-grid">
+                        <div><label>Nome</label><input type="text" id="estNome" required></div>
+                        <div><label>Categoria</label><input type="text" id="estCategoria"></div>
+                        <div><label>Quantidade</label><input type="number" id="estQtd" required min="0"></div>
+                        <div><label>Mínimo (alerta)</label><input type="number" id="estMin" value="5" min="0"></div>
+                        <div><label>Preço unitário</label><input type="number" step="0.01" id="estPreco"></div>
+                        <div><label>Validade</label><input type="date" id="estValidade"></div>
+                        <div><label>Fornecedor</label><select id="estFornecedor"></select></div>
+                        <div><button type="submit" class="btn btn-success">➕ Adicionar</button></div>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>📦 Itens em Estoque</h3>
+                    <div class="card-filtros">
+                        <button class="filtro-estoque ativo" data-filtro="todos">Todos</button>
+                        <button class="filtro-estoque" data-filtro="baixo">⚠️ Estoque baixo</button>
+                        <button class="filtro-estoque" data-filtro="vencendo">⏰ Vencendo (30d)</button>
+                        <button class="filtro-estoque" data-filtro="vencidos">🚫 Vencidos</button>
+                    </div>
+                    <table>
+                        <thead><tr><th>Nome</th><th>Categoria</th><th>Qtd</th><th>Mín.</th><th>Validade</th><th>Status</th><th>Ações</th></tr></thead>
+                        <tbody id="tabelaEstoque"></tbody>
+                    </table>
+                    <p class="vazio-msg" id="vazioEstoque">Nenhum item no estoque.</p>
+                </div>
+                <div class="card">
+                    <h3>📋 Pedido de Reposição <button class="btn btn-sm btn-info" id="btnExportarPedido">📄 Exportar</button></h3>
+                    <table>
+                        <thead><tr><th>Item</th><th>Estoque atual</th><th>Mínimo</th><th>Sugestão de compra</th><th>Fornecedor</th></tr></thead>
+                        <tbody id="tabelaReposicao"></tbody>
+                    </table>
+                    <p class="vazio-msg" id="vazioReposicao">Nenhum item precisa de reposição. ✅</p>
+                </div>
+            </section>
+
+            <!-- MOVIMENTAÇÕES -->
+            <section class="tela" id="tela-movimentacoes">
+                <div class="card">
+                    <h3>Nova Movimentação</h3>
+                    <form id="formMovimentacao" class="form-grid">
+                        <div><label>Item</label><select id="movItem" required></select></div>
+                        <div><label>Tipo</label>
+                            <select id="movTipo" required>
+                                <option value="entrada">📥 Entrada</option>
+                                <option value="saida">📤 Saída</option>
+                            </select>
+                        </div>
+                        <div><label>Quantidade</label><input type="number" id="movQtd" required min="1"></div>
+                        <div><label>Motivo</label>
+                            <select id="movMotivo">
+                                <option value="compra">Compra</option>
+                                <option value="uso">Uso em procedimento</option>
+                                <option value="perda">Perda/Quebra</option>
+                                <option value="vencimento">Vencimento</option>
+                                <option value="ajuste">Ajuste de inventário</option>
+                                <option value="devolucao">Devolução</option>
+                            </select>
+                        </div>
+                        <div class="full"><label>Observações</label><input type="text" id="movObs" placeholder="Opcional"></div>
+                        <div><button type="submit" class="btn btn-success">➕ Registrar</button></div>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>🔄 Histórico de Movimentações</h3>
+                    <table>
+                        <thead><tr><th>Data</th><th>Tipo</th><th>Item</th><th>Qtd</th><th>Motivo</th><th>Usuário</th><th>Ações</th></tr></thead>
+                        <tbody id="tabelaMovimentacoes"></tbody>
+                    </table>
+                    <p class="vazio-msg" id="vazioMovimentacoes">Nenhuma movimentação registrada.</p>
+                </div>
+            </section>
+
+            <!-- FORNECEDORES -->
+            <section class="tela" id="tela-fornecedores">
+                <div class="card">
+                    <h3>Novo Fornecedor</h3>
+                    <form id="formFornecedor" class="form-grid">
+                        <div><label>Nome</label><input type="text" id="forNome" required></div>
+                        <div><label>CNPJ</label><input type="text" id="forCnpj" placeholder="00.000.000/0000-00"></div>
+                        <div><label>Contato</label><input type="text" id="forContato"></div>
+                        <div><label>Telefone</label><input type="text" id="forTelefone"></div>
+                        <div><label>E-mail</label><input type="email" id="forEmail"></div>
+                        <div class="full"><label>Observações</label><input type="text" id="forObs"></div>
+                        <div><button type="submit" class="btn btn-success">➕ Cadastrar</button></div>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>🏢 Fornecedores Cadastrados</h3>
+                    <table>
+                        <thead><tr><th>Nome</th><th>CNPJ</th><th>Contato</th><th>Telefone</th><th>E-mail</th><th>Ações</th></tr></thead>
+                        <tbody id="tabelaFornecedores"></tbody>
+                    </table>
+                    <p class="vazio-msg" id="vazioFornecedores">Nenhum fornecedor cadastrado.</p>
+                </div>
+            </section>
+
+            <!-- FINANCEIRO -->
+            <section class="tela" id="tela-financeiro">
+                <div class="cards-grid">
+                    <div class="card-stat"><div class="icon-big verde">💰</div><div><h3 id="finFaturamentoMes">R$ 0</h3><p>Faturamento do mês</p></div></div>
+                    <div class="card-stat"><div class="icon-big azul">📅</div><div><h3 id="finFaturamentoHoje">R$ 0</h3><p>Recebido hoje</p></div></div>
+                    <div class="card-stat"><div class="icon-big laranja">⏳</div><div><h3 id="finPendente">R$ 0</h3><p>A receber (pendente)</p></div></div>
+                    <div class="card-stat"><div class="icon-big roxo">📊</div><div><h3 id="finTicket">R$ 0</h3><p>Ticket médio</p></div></div>
+                </div>
+
+                <div class="card">
+                    <h3>💰 Registrar Novo Pagamento</h3>
+                    <form id="formPagamento" class="form-grid">
+                        <div class="full">
+                            <label>Agendamento</label>
+                            <select id="pagAgendamento" required></select>
+                        </div>
+                        <div><label>Valor (R$)</label><input type="number" step="0.01" id="pagValor" required min="0"></div>
+                        <div>
+                            <label>Forma de Pagamento</label>
+                            <select id="pagForma" required>
+                                <option value="dinheiro">💵 Dinheiro</option>
+                                <option value="pix">⚡ PIX</option>
+                                <option value="debito">💳 Cartão Débito</option>
+                                <option value="credito">💳 Cartão Crédito</option>
+                                <option value="convenio">🏥 Convênio</option>
+                                <option value="boleto">📄 Boleto</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Status</label>
+                            <select id="pagStatus" required>
+                                <option value="pago">✅ Pago</option>
+                                <option value="pendente">⏳ Pendente</option>
+                            </select>
+                        </div>
+                        <div><label>Data do Pagamento</label><input type="date" id="pagData" required></div>
+                        <div class="full"><label>Observações</label><input type="text" id="pagObs" placeholder="Opcional"></div>
+                        <div><button type="submit" class="btn btn-success">➕ Registrar Pagamento</button></div>
+                    </form>
+                </div>
+
+                <div class="card">
+                    <h3>📋 Lista de Pagamentos</h3>
+                    <div class="card-filtros">
+                        <button class="filtro-pag ativo" data-filtro="todos">Todos</button>
+                        <button class="filtro-pag" data-filtro="pago">✅ Pagos</button>
+                        <button class="filtro-pag" data-filtro="pendente">⏳ Pendentes</button>
+                    </div>
+                    <table>
+                        <thead>
+                            <tr><th>Data</th><th>Paciente</th><th>Serviço</th><th>Valor</th><th>Forma</th><th>Status</th><th>Ações</th></tr>
+                        </thead>
+                        <tbody id="tabelaPagamentos"></tbody>
+                    </table>
+                    <p class="vazio-msg" id="vazioPagamentos">Nenhum pagamento registrado.</p>
+                </div>
+            </section>
+
+            <!-- HORÁRIOS -->
+            <section class="tela" id="tela-horarios">
+                <div class="card">
+                    <h3>⏰ Horários de Atendimento</h3>
+                    <div id="listaHorarios"></div>
+                    <div style="margin-top:16px;">
+                        <button class="btn btn-success" id="btnSalvarHorarios">💾 Salvar Horários</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- RELATÓRIOS -->
+            <section class="tela" id="tela-relatorios">
+                <div class="card">
+                    <h3>📅 Período de Análise</h3>
+                    <div class="card-filtros">
+                        <button class="filtro-periodo ativo" data-periodo="30">Últimos 30 dias</button>
+                        <button class="filtro-periodo" data-periodo="7">Últimos 7 dias</button>
+                        <button class="filtro-periodo" data-periodo="0">Hoje</button>
+                        <button class="filtro-periodo" data-periodo="mes">Este mês</button>
+                        <button class="filtro-periodo" data-periodo="ano">Este ano</button>
+                        <button class="filtro-periodo" data-periodo="custom">Personalizado</button>
+                    </div>
+                    <div id="periodoCustom" style="display:none; margin-top: 12px;" class="form-grid">
+                        <div><label>De</label><input type="date" id="relDataInicio"></div>
+                        <div><label>Até</label><input type="date" id="relDataFim"></div>
+                        <div><button class="btn btn-info" id="btnAplicarPeriodo">🔍 Aplicar</button></div>
+                    </div>
+                    <p style="margin-top:12px; font-size:13px; color:var(--text-light);">
+                        Analisando de <strong id="relDe">—</strong> até <strong id="relAte">—</strong>
+                    </p>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card-stat"><div class="icon-big azul">📅</div><div><h3 id="relTotal">0</h3><p>Total de agendamentos</p></div></div>
+                    <div class="card-stat"><div class="icon-big verde">✅</div><div><h3 id="relRealizados">0</h3><p>Realizados</p></div></div>
+                    <div class="card-stat"><div class="icon-big vermelho">❌</div><div><h3 id="relCancelados">0</h3><p>Cancelados</p></div></div>
+                    <div class="card-stat"><div class="icon-big roxo">📊</div><div><h3 id="relTaxa">0%</h3><p>Taxa de comparecimento</p></div></div>
+                </div>
+
+                <div class="cards-grid">
+                    <div class="card-stat"><div class="icon-big verde">💰</div><div><h3 id="relFaturamento">R$ 0</h3><p>Faturamento (realizados)</p></div></div>
+                    <div class="card-stat"><div class="icon-big laranja">📈</div><div><h3 id="relTicket">R$ 0</h3><p>Ticket médio</p></div></div>
+                </div>
+
+                <div class="card">
+                    <h3>💼 Serviços Mais Realizados <button class="btn btn-sm btn-info" onclick="exportarCSV('servicos')">📄 CSV</button></h3>
+                    <div id="rankingServicos"></div>
+                    <p class="vazio-msg" id="vazioRankServ">Nenhum serviço no período.</p>
+                </div>
+
+                <div class="card">
+                    <h3>👨‍⚕️ Profissionais Mais Produtivos <button class="btn btn-sm btn-info" onclick="exportarCSV('profissionais')">📄 CSV</button></h3>
+                    <div id="rankingProfissionais"></div>
+                    <p class="vazio-msg" id="vazioRankProf">Nenhum profissional no período.</p>
+                </div>
+
+                <div class="card">
+                    <h3>👥 Pacientes Mais Atendidos</h3>
+                    <div id="rankingPacientes"></div>
+                    <p class="vazio-msg" id="vazioRankPac">Nenhum paciente no período.</p>
+                </div>
+
+                <div class="card">
+                    <h3>📊 Distribuição por Status</h3>
+                    <div class="breakdown" id="breakdownStatus"></div>
+                </div>
+
+                <div class="card">
+                    <h3>📈 Movimento Diário <button class="btn btn-sm btn-info" onclick="exportarCSV('diario')">📄 CSV</button></h3>
+                    <div class="grafico-diario" id="graficoDiario"></div>
+                    <div class="grafico-legenda">
+                        <span id="legendaInicio">—</span>
+                        <span id="legendaFim">—</span>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <h3>🔍 Detalhamento por Profissional</h3>
+                    <table>
+                        <thead><tr><th>Profissional</th><th>Especialidade</th><th>Agendados</th><th>Realizados</th><th>Cancelados</th><th>Faturamento</th><th>Taxa</th></tr></thead>
+                        <tbody id="tabelaDetProfissionais"></tbody>
+                    </table>
+                    <p class="vazio-msg" id="vazioDetProf">Nenhum dado no período.</p>
+                </div>
+
+                <div class="card">
+                    <h3>🔍 Detalhamento por Serviço</h3>
+                    <table>
+                        <thead><tr><th>Serviço</th><th>Preço</th><th>Agendados</th><th>Realizados</th><th>Faturamento</th></tr></thead>
+                        <tbody id="tabelaDetServicos"></tbody>
+                    </table>
+                    <p class="vazio-msg" id="vazioDetServ">Nenhum dado no período.</p>
+                </div>
+            </section>
+
+            <!-- USUÁRIOS -->
+            <section class="tela" id="tela-usuarios">
+                <div class="card">
+                    <h3>Novo Usuário</h3>
+                    <form id="formUsuario" class="form-grid">
+                        <div><label>Nome</label><input type="text" id="usuNome" required></div>
+                        <div><label>E-mail (login)</label><input type="email" id="usuEmail" required></div>
+                        <div><label>Senha</label><input type="password" id="usuSenha" required minlength="6"></div>
+                        <div><label>Perfil</label>
+                            <select id="usuPerfil" required>
+                                <option value="admin">Administrador</option>
+                                <option value="recepcao">Recepção</option>
+                                <option value="profissional">Profissional</option>
+                            </select>
+                        </div>
+                        <div><button type="submit" class="btn btn-success">➕ Cadastrar</button></div>
+                    </form>
+                </div>
+                <div class="card">
+                    <h3>👤 Usuários Cadastrados</h3>
+                    <table>
+                        <thead><tr><th>Nome</th><th>E-mail</th><th>Perfil</th><th>Status</th><th>Ações</th></tr></thead>
+                        <tbody id="tabelaUsuarios"></tbody>
+                    </table>
+                    <p class="vazio-msg" id="vazioUsuarios">Nenhum usuário cadastrado.</p>
+                </div>
+            </section>
+
+            <!-- LOGS -->
+            <section class="tela" id="tela-logs">
+                <div class="card">
+                    <h3>📋 Log de Atividades <button class="btn btn-sm btn-danger" id="btnLimparLogs">🗑️ Limpar Logs</button></h3>
+                    <div class="card-filtros">
+                        <button class="filtro-logs ativo" data-filtro="todos">Todos</button>
+                        <button class="filtro-logs" data-filtro="login">🔑 Login</button>
+                        <button class="filtro-logs" data-filtro="criar">➕ Criar</button>
+                        <button class="filtro-logs" data-filtro="editar">✏️ Editar</button>
+                        <button class="filtro-logs" data-filtro="excluir">🗑️ Excluir</button>
+                    </div>
+                    <table>
+                        <thead><tr><th>Data/Hora</th><th>Usuário</th><th>Ação</th><th>Detalhes</th></tr></thead>
+                        <tbody id="tabelaLogs"></tbody>
+                    </table>
+                    <p class="vazio-msg" id="vazioLogs">Nenhuma atividade registrada.</p>
+                </div>
+            </section>
+
+            <!-- RODAPÉ -->
+            <footer class="app-footer">
+                <div class="footer-left">
+                    <span class="footer-version" id="footerVersao">v2.1</span>
+                    <span class="footer-data" id="footerData">—</span>
+                </div>
+                <div class="footer-center">
+                    Desenvolvido por <strong>Rodrigo</strong> e <strong>Maisa</strong>
+                    <span class="footer-fatec">— Fatec Americana</span>
+                </div>
+                <div class="footer-right">
+                    <span class="footer-status">🟢 Sistema ativo</span>
+                </div>
+            </footer>
+        </main>
+    </div>
+
+    <div class="modal-overlay" id="modal">
+        <div class="modal">
+            <h3 id="modalTitulo">Editar</h3>
+            <div id="modalConteudo"></div>
+            <div class="modal-actions">
+                <button class="btn btn-danger" id="modalCancelar">Cancelar</button>
+                <button class="btn btn-success" id="modalSalvar">Salvar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

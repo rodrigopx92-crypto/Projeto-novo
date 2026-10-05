@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Teste Supabase - Clínica</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7fa;
+               padding: 40px 20px; min-height: 100vh; }
+        .box { max-width: 800px; margin: 0 auto; background: white; padding: 32px;
+               border-radius: 12px; box-shadow: 0 4px 12px rgba(0,0,0,0.08); }
+        h1 { color: #1e3a5f; margin-bottom: 8px; font-size: 24px; }
+        .sub { color: #718096; font-size: 14px; margin-bottom: 24px; }
+        .status { padding: 16px; border-radius: 8px; font-size: 14px;
+                  font-weight: 600; margin-bottom: 20px;
+                  display: flex; align-items: center; gap: 10px; }
+        .status.ok    { background: #f0fff4; color: #27ae60; border-left: 4px solid #27ae60; }
+        .status.erro  { background: #fff5f5; color: #e74c3c; border-left: 4px solid #e74c3c; }
+        .status.load  { background: #ebf8ff; color: #3498db; border-left: 4px solid #3498db; }
+        table { width: 100%; border-collapse: collapse; margin-top: 12px; }
+        th, td { padding: 12px 10px; text-align: left;
+                 border-bottom: 1px solid #e2e8f0; font-size: 14px; }
+        th { background: #f7fafc; color: #1e3a5f;
+             text-transform: uppercase; font-size: 12px; }
+        tr:hover td { background: #f9fbfd; }
+        .badge { display: inline-block; padding: 3px 8px; background: #e6fffa;
+                 color: #38b2ac; border-radius: 12px; font-size: 11px; font-weight: 600; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>🔌 Teste de Conexão Supabase</h1>
+        <p class="sub">Verificando se o frontend consegue ler dados do banco.</p>
+        <div id="status" class="status load">⏳ Conectando ao Supabase...</div>
+        <div id="conteudo" style="display: none;">
+            <h3 style="color:#1e3a5f; margin-bottom: 10px;">👥 Pacientes no banco de dados</h3>
+            <table>
+                <thead>
+                    <tr><th>Nome</th><th>Telefone</th><th>E-mail</th><th>ID</th></tr>
+                </thead>
+                <tbody id="tabela"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script>
+        const SUPABASE_URL = 'https://aeedbcfkumidzdaujefp.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFlZWRiY2ZrdW1pZHpkYXVqZmVwIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTAyNjQ3NjMsImV4cCI6MjEwNTg0MDc2M30.dxH-MHXGdGT0D1CdhR5SCCitjSd70udsVKcX1hPGI6Y';
+
+        const sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        const status = document.getElementById('status');
+        const conteudo = document.getElementById('conteudo');
+        const tabela = document.getElementById('tabela');
+
+        (async () => {
+            try {
+                const { data, error } = await sb
+                    .from('pacientes')
+                    .select('*')
+                    .order('created_at', { ascending: false });
+
+                if (error) {
+                    status.className = 'status erro';
+                    status.textContent = '❌ Erro: ' + error.message;
+                    return;
+                }
+
+                status.className = 'status ok';
+                status.textContent = `✅ Conectado! ${data.length} paciente(s) encontrado(s).`;
+                conteudo.style.display = 'block';
+
+                if (data.length === 0) {
+                    tabela.innerHTML = '<tr><td colspan="4" style="text-align:center;color:#718096;">Nenhum paciente cadastrado.</td></tr>';
+                    return;
+                }
+
+                tabela.innerHTML = data.map(p => `
+                    <tr>
+                        <td><strong>${p.name}</strong></td>
+                        <td>${p.telefone || '—'}</td>
+                        <td>${p.email || '—'}</td>
+                        <td><span class="badge">${p.id.slice(0, 8)}...</span></td>
+                    </tr>
+                `).join('');
+
+            } catch (e) {
+                status.className = 'status erro';
+                status.textContent = '❌ Falha: ' + e.message;
+            }
+        })();
+    </script>
+</body>
+</html>

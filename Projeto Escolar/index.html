@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Clínica Bem-Estar</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="login-page">
+    <div class="login-wrapper">
+        <!-- LADO ESQUERDO: BRANDING -->
+        <div class="login-brand">
+            <div class="brand-content">
+                <div class="brand-logo">
+                    <div class="logo-circle">
+                        <span>🏥</span>
+                    </div>
+                    <h1>Clínica Bem-Estar</h1>
+                    <p class="brand-tagline">Sistema de Gestão Clínica</p>
+                </div>
+
+                <div class="brand-features">
+                    <div class="feature-item">
+                        <span class="feature-icon">📅</span>
+                        <div>
+                            <strong>Agendamentos</strong>
+                            <p>Gerencie consultas em tempo real</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">👥</span>
+                        <div>
+                            <strong>Pacientes</strong>
+                            <p>Histórico completo e organizado</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📦</span>
+                        <div>
+                            <strong>Estoque</strong>
+                            <p>Controle inteligente de insumos</p>
+                        </div>
+                    </div>
+                    <div class="feature-item">
+                        <span class="feature-icon">📈</span>
+                        <div>
+                            <strong>Relatórios</strong>
+                            <p>Análises e métricas detalhadas</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="brand-footer">
+                    <p>© 2026 Clínica Bem-Estar</p>
+                </div>
+            </div>
+
+            <div class="brand-decoration">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+            </div>
+        </div>
+
+        <!-- LADO DIREITO: FORMULÁRIO -->
+        <div class="login-form-side">
+            <div class="login-form-container">
+                <div class="form-header">
+                    <h2>Bem-vindo de volta 👋</h2>
+                    <p>Acesse sua conta para continuar</p>
+                </div>
+
+                <form id="loginForm">
+                    <div class="input-group">
+                        <label for="usuario">E-mail</label>
+                        <div class="input-with-icon">
+                            <span class="input-icon">📧</span>
+                            <input type="email" id="usuario" placeholder="seu@email.com" required autocomplete="username">
+                        </div>
+                    </div>
+
+                    <div class="input-group">
+                        <label for="senha">Senha</label>
+                        <div class="input-with-icon">
+                            <span class="input-icon">🔒</span>
+                            <input type="password" id="senha" placeholder="Digite sua senha" required autocomplete="current-password">
+                        </div>
+                    </div>
+
+                    <label class="check-lembrar">
+                        <input type="checkbox" id="lembrar">
+                        <span class="check-box"></span>
+                        <span>Lembrar-me por 30 dias</span>
+                    </label>
+
+                    <button type="submit" class="btn-entrar" id="btnEntrar">
+                        <span>Entrar no sistema</span>
+                        <span class="arrow">→</span>
+                    </button>
+
+                    <p id="erro" class="erro">⚠️ E-mail ou senha inválidos!</p>
+                </form>
+
+                <div class="login-divider">
+                    <span>Contas de teste</span>
+                </div>
+
+                <div class="demo-accounts">
+                    <div class="demo-account" data-email="admin@clinica.com" data-senha="admin123">
+                        <div class="demo-icon admin">👑</div>
+                        <div class="demo-info">
+                            <strong>Administrador</strong>
+                            <span>admin@clinica.com</span>
+                        </div>
+                        <span class="demo-fill">Usar</span>
+                    </div>
+                    <div class="demo-account" data-email="recepcao@clinica.com" data-senha="recepcao123">
+                        <div class="demo-icon recepcao">📋</div>
+                        <div class="demo-info">
+                            <strong>Recepção</strong>
+                            <span>recepcao@clinica.com</span>
+                        </div>
+                        <span class="demo-fill">Usar</span>
+                    </div>
+                    <div class="demo-account" data-email="ana.souza@clinica.com" data-senha="prof123">
+                        <div class="demo-icon profissional">👨‍⚕️</div>
+                        <div class="demo-info">
+                            <strong>Profissional</strong>
+                            <span>ana.souza@clinica.com</span>
+                        </div>
+                        <span class="demo-fill">Usar</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        // Preenche automaticamente ao clicar nas contas de demo
+        document.querySelectorAll('.demo-account').forEach(el => {
+            el.addEventListener('click', () => {
+                document.getElementById('usuario').value = el.dataset.email;
+                document.getElementById('senha').value = el.dataset.senha;
+                document.getElementById('usuario').focus();
+            });
+        });
+    </script>
+</body>
+</html>

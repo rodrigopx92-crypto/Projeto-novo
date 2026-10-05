@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Populando dados - Clínica Bem-Estar</title>
+    <link rel="stylesheet" href="style.css">
+    <style>
+        body { padding: 40px 20px; }
+        .seed-box { max-width: 700px; margin: 0 auto; }
+        .log { background: #1e3a5f; color: #38b2ac; padding: 20px; border-radius: 8px;
+               font-family: monospace; font-size: 14px; white-space: pre-wrap; margin-top: 20px; }
+        .ok { color: #27ae60; }
+        h2 { color: #1e3a5f; margin-bottom: 8px; }
+        p.sub { color: #718096; margin-bottom: 24px; }
+    </style>
+</head>
+<body>
+    <div class="seed-box">
+        <h2>🌱 Populador de Dados de Teste</h2>
+        <p class="sub">Clique no botão abaixo para alimentar o sistema com dados de exemplo.</p>
+        <button id="btnSeed" class="btn btn-success" style="padding:14px 24px; font-size:16px;">
+            🚀 Popular Sistema
+        </button>
+        <button id="btnLimpar" class="btn btn-danger" style="padding:14px 24px; font-size:16px; margin-left:10px;">
+            🗑️ Limpar Tudo
+        </button>
+        <div class="log" id="log">Aguardando...</div>
+    </div>
+
+    <script>
+    // =====================================================
+    //  MÓDULO PROFISSIONAIS
+    // =====================================================
+    const profissionais = [
+        { id: 'pro01', nome: 'Dra. Ana Souza',      especialidade: 'Clínica Geral', telefone: '(11) 98765-1001', email: 'ana.souza@clinica.com' },
+        { id: 'pro02', nome: 'Dr. Carlos Mendes',   especialidade: 'Cardiologia',   telefone: '(11) 98765-1002', email: 'carlos.mendes@clinica.com' },
+        { id: 'pro03', nome: 'Dra. Juliana Lima',   especialidade: 'Dermatologia',  telefone: '(11) 98765-1003', email: 'juliana.lima@clinica.com' },
+        { id: 'pro04', nome: 'Dr. Rafael Alves',    especialidade: 'Ortopedia',     telefone: '(11) 98765-1004', email: 'rafael.alves@clinica.com' },
+        { id: 'pro05', nome: 'Dra. Mariana Costa',  especialidade: 'Pediatria',     telefone: '(11) 98765-1005', email: 'mariana.costa@clinica.com' },
+        { id: 'pro06', nome: 'Dr. Bruno Ferreira',  especialidade: 'Odontologia',   telefone: '(11) 98765-1006', email: 'bruno.ferreira@clinica.com' }
+    ];
+
+    // =====================================================
+    //  MÓDULO SERVIÇOS
+    // =====================================================
+    const servicos = [
+        { id: 'ser01', nome: 'Consulta Clínica Geral',    preco: 180.00, duracao: 30, descricao: 'Consulta médica geral' },
+        { id: 'ser02', nome: 'Consulta Cardiologia',      preco: 350.00, duracao: 45, descricao: 'Avaliação cardiológica completa' },
+        { id: 'ser03', nome: 'Consulta Dermatologia',     preco: 300.00, duracao: 30, descricao: 'Avaliação de pele' },
+        { id: 'ser04', nome: 'Consulta Ortopedia',        preco: 320.00, duracao: 40, descricao: 'Avaliação musculoesquelética' },
+        { id: 'ser05', nome: 'Consulta Pediatria',        preco: 250.00, duracao: 30, descricao: 'Acompanhamento infantil' },
+        { id: 'ser06', nome: 'Limpeza Dental',            preco: 200.00, duracao: 40, descricao: 'Profilaxia e limpeza' },
+        { id: 'ser07', nome: 'Restauração Dentária',      preco: 450.00, duracao: 60, descricao: 'Restauração em resina' },
+        { id: 'ser08', nome: 'Eletrocardiograma (ECG)',   preco: 150.00, duracao: 20, descricao: 'Exame de ritmo cardíaco' },
+        { id: 'ser09', nome: 'Exame Dermatológico',       preco: 220.00, duracao: 30, descricao: 'Dermatoscopia' },
+        { id: 'ser10', nome: 'Aplicação de Botox',        preco: 800.00, duracao: 60, descricao: 'Procedimento estético' }
+    ];
+
+    // =====================================================
+    //  MÓDULO PACIENTES
+    // =====================================================
+    const pacientes = [
+        { id: 'pac01', nome: 'João Pedro Silva',      cpf: '123.456.789-01', telefone: '(11) 91111-0001', email: 'joao.silva@email.com',     nascimento: '1985-03-12', endereco: 'Rua das Flores, 123 - São Paulo/SP' },
+        { id: 'pac02', nome: 'Maria Fernanda Santos', cpf: '123.456.789-02', telefone: '(11) 91111-0002', email: 'maria.santos@email.com',   nascimento: '1992-07-25', endereco: 'Av. Paulista, 1500 - São Paulo/SP' },
+        { id: 'pac03', nome: 'Carlos Eduardo Oliveira', cpf: '123.456.789-03', telefone: '(11) 91111-0003', email: 'carlos.oliveira@email.com', nascimento: '1978-11-03', endereco: 'Rua Augusta, 500 - São Paulo/SP' },
+        { id: 'pac04', nome: 'Ana Beatriz Rodrigues', cpf: '123.456.789-04', telefone: '(11) 91111-0004', email: 'ana.rodrigues@email.com',  nascimento: '2000-01-18', endereco: 'Rua Oscar Freire, 800 - São Paulo/SP' },
+        { id: 'pac05', nome: 'Lucas Gabriel Martins', cpf: '123.456.789-05', telefone: '(11) 91111-0005', email: 'lucas.martins@email.com',  nascimento: '1995-05-30', endereco: 'Rua Consolação, 200 - São Paulo/SP' },
+        { id: 'pac06', nome: 'Juliana Ferreira Lima', cpf: '123.456.789-06', telefone: '(11) 91111-0006', email: 'juliana.lima@email.com',   nascimento: '1988-09-14', endereco: 'Rua da Paz, 45 - São Paulo/SP' },
+        { id: 'pac07', nome: 'Rafael Augusto Pereira', cpf: '123.456.789-07', telefone: '(11) 91111-0007', email: 'rafael.pereira@email.com', nascimento: '1970-12-22', endereco: 'Av. Brasil, 3000 - São Paulo/SP' },
+        { id: 'pac08', nome: 'Patrícia Gomes Alves',  cpf: '123.456.789-08', telefone: '(11) 91111-0008', email: 'patricia.alves@email.com', nascimento: '1983-04-09', endereco: 'Rua Vergueiro, 1000 - São Paulo/SP' },
+        { id: 'pac09', nome: 'Thiago Henrique Rocha', cpf: '123.456.789-09', telefone: '(11) 91111-0009', email: 'thiago.rocha@email.com',   nascimento: '1998-08-16', endereco: 'Rua Ipiranga, 500 - São Paulo/SP' },
+        { id: 'pac10', nome: 'Camila Souza Ribeiro',  cpf: '123.456.789-10', telefone: '(11) 91111-0010', email: 'camila.ribeiro@email.com', nascimento: '1990-02-28', endereco: 'Rua 7 de Abril, 200 - São Paulo/SP' },
+        { id: 'pac11', nome: 'Fernando Dias Cardoso', cpf: '123.456.789-11', telefone: '(11) 91111-0011', email: 'fernando.cardoso@email.com', nascimento: '1975-06-11', endereco: 'Av. Faria Lima, 4000 - São Paulo/SP' },
+        { id: 'pac12', nome: 'Larissa Mendes Barros', cpf: '123.456.789-12', telefone: '(11) 91111-0012', email: 'larissa.barros@email.com', nascimento: '2002-10-05', endereco: 'Rua Cardeal Arcoverde, 700 - São Paulo/SP' },
+        { id: 'pac13', nome: 'Gustavo Nunes Teixeira', cpf: '123.456.789-13', telefone: '(11) 91111-0013', email: 'gustavo.teixeira@email.com', nascimento: '1968-03-19', endereco: 'Rua Teodoro Sampaio, 1200 - São Paulo/SP' },
+        { id: 'pac14', nome: 'Bianca Cristina Moraes', cpf: '123.456.789-14', telefone: '(11) 91111-0014', email: 'bianca.moraes@email.com',  nascimento: '1993-12-01', endereco: 'Rua dos Pinheiros, 350 - São Paulo/SP' },
+        { id: 'pac15', nome: 'Eduardo Henrique Castro', cpf: '123.456.789-15', telefone: '(11) 91111-0015', email: 'eduardo.castro@email.com', nascimento: '1980-07-27', endereco: 'Av. Rebouças, 2200 - São Paulo/SP' }
+    ];
+
+    // =====================================================
+    //  MÓDULO ESTOQUE
+    // =====================================================
+    const estoque = [
+        { id: 'est01', nome: 'Paracetamol 500mg (cx 20)',   categoria: 'Medicamento', quantidade: 45,  minimo: 20, preco: 8.50,   validade: '2026-06-30', fornecedor: 'MedPharma' },
+        { id: 'est02', nome: 'Dipirona 1g (cx 10)',          categoria: 'Medicamento', quantidade: 12,  minimo: 20, preco: 6.20,   validade: '2026-03-15', fornecedor: 'MedPharma' },
+        { id: 'est03', nome: 'Ibuprofeno 400mg (cx 15)',     categoria: 'Medicamento', quantidade: 30,  minimo: 15, preco: 12.00,  validade: '2026-08-20', fornecedor: 'FarmaDist' },
+        { id: 'est04', nome: 'Amoxicilina 500mg (cx 21)',    categoria: 'Antibiótico', quantidade: 8,   minimo: 10, preco: 28.90,  validade: '2025-12-10', fornecedor: 'MedPharma' },
+        { id: 'est05', nome: 'Álcool 70% (500ml)',           categoria: 'Higiene',     quantidade: 60,  minimo: 25, preco: 9.90,   validade: '2027-01-15', fornecedor: 'CleanMed' },
+        { id: 'est06', nome: 'Luvas descartáveis (cx 100)',  categoria: 'Descartável', quantidade: 22,  minimo: 15, preco: 22.00,  validade: '2028-05-01', fornecedor: 'CleanMed' },
+        { id: 'est07', nome: 'Máscaras cirúrgicas (cx 50)',  categoria: 'Descartável', quantidade: 6,   minimo: 10, preco: 18.50,  validade: '2027-09-10', fornecedor: 'CleanMed' },
+        { id: 'est08', nome: 'Gaze estéril (pct 10)',        categoria: 'Curativo',    quantidade: 40,  minimo: 20, preco: 5.50,   validade: '2027-02-28', fornecedor: 'FarmaDist' },
+        { id: 'est09', nome: 'Soro fisiológico 0,9% (500ml)',categoria: 'Medicamento', quantidade: 18,  minimo: 10, preco: 7.30,   validade: '2026-11-05', fornecedor: 'MedPharma' },
+        { id: 'est10', nome: 'Anestésico local (tubo)',      categoria: 'Odonto',      quantidade: 4,   minimo: 8,  preco: 45.00,  validade: '2026-04-12', fornecedor: 'Dental Supply' },
+        { id: 'est11', nome: 'Resina composta A2',           categoria: 'Odonto',      quantidade: 9,   minimo: 5,  preco: 78.00,  validade: '2026-07-22', fornecedor: 'Dental Supply' },
+        { id: 'est12', nome: 'Lâminas de bisturi nº 15',     categoria: 'Cirúrgico',   quantidade: 25,  minimo: 10, preco: 3.20,   validade: '2029-01-01', fornecedor: 'Cirúrgica BR' },
+        { id: 'est13', nome: 'Termômetro digital (un)',      categoria: 'Equipamento', quantidade: 3,   minimo: 2,  preco: 55.00,  validade: '',           fornecedor: 'TecMed' },
+        { id: 'est14', nome: 'Compressa estéril (pct)',      categoria: 'Curativo',    quantidade: 15,  minimo: 8,  preco: 6.80,   validade: '2027-06-15', fornecedor: 'FarmaDist' },
+        { id: 'est15', nome: 'Álcool em gel (500ml)',        categoria: 'Higiene',     quantidade: 35,  minimo: 20, preco: 14.90,  validade: '2026-10-30', fornecedor: 'CleanMed' }
+    ];
+
+    // =====================================================
+    //  MÓDULO AGENDAMENTOS
+    //  Datas geradas relativas ao dia atual.
+    // =====================================================
+    function dataOffset(dias) {
+        const d = new Date();
+        d.setDate(d.getDate() + dias);
+        return d.toISOString().split('T')[0];
+    }
+
+    const agendamentos = [
+        // PASSADOS
+        { id: 'ag01', pacienteId: 'pac01', profissionalId: 'pro01', servicoId: 'ser01', data: dataOffset(-5), hora: '09:00', status: 'realizado', obs: 'Paciente relatou melhora' },
+        { id: 'ag02', pacienteId: 'pac02', profissionalId: 'pro02', servicoId: 'ser02', data: dataOffset(-4), hora: '10:30', status: 'realizado', obs: '' },
+        { id: 'ag03', pacienteId: 'pac03', profissionalId: 'pro04', servicoId: 'ser04', data: dataOffset(-4), hora: '14:00', status: 'realizado', obs: 'Solicitado raio-x' },
+        { id: 'ag04', pacienteId: 'pac04', profissionalId: 'pro03', servicoId: 'ser03', data: dataOffset(-3), hora: '11:00', status: 'cancelado', obs: 'Paciente desmarcou' },
+        { id: 'ag05', pacienteId: 'pac05', profissionalId: 'pro06', servicoId: 'ser06', data: dataOffset(-3), hora: '15:30', status: 'realizado', obs: '' },
+        { id: 'ag06', pacienteId: 'pac06', profissionalId: 'pro05', servicoId: 'ser05', data: dataOffset(-2), hora: '08:30', status: 'realizado', obs: 'Criança com febre' },
+        { id: 'ag07', pacienteId: 'pac07', profissionalId: 'pro02', servicoId: 'ser08', data: dataOffset(-1), hora: '09:15', status: 'realizado', obs: 'ECG normal' },
+        { id: 'ag08', pacienteId: 'pac08', profissionalId: 'pro01', servicoId: 'ser01', data: dataOffset(-1), hora: '16:00', status: 'cancelado', obs: '' },
+
+        // HOJE
+        { id: 'ag09', pacienteId: 'pac09', profissionalId: 'pro01', servicoId: 'ser01', data: dataOffset(0), hora: '08:00', status: 'realizado', obs: '' },
+        { id: 'ag10', pacienteId: 'pac10', profissionalId: 'pro03', servicoId: 'ser09', data: dataOffset(0), hora: '09:30', status: 'confirmado', obs: '' },
+        { id: 'ag11', pacienteId: 'pac11', profissionalId: 'pro02', servicoId: 'ser02', data: dataOffset(0), hora: '11:00', status: 'confirmado', obs: 'Trazer exames anteriores' },
+        { id: 'ag12', pacienteId: 'pac12', profissionalId: 'pro06', servicoId: 'ser07', data: dataOffset(0), hora: '14:00', status: 'agendado', obs: '' },
+        { id: 'ag13', pacienteId: 'pac13', profissionalId: 'pro04', servicoId: 'ser04', data: dataOffset(0), hora: '15:30', status: 'agendado', obs: '' },
+        { id: 'ag14', pacienteId: 'pac14', profissionalId: 'pro05', servicoId: 'ser05', data: dataOffset(0), hora: '16:45', status: 'agendado', obs: '' },
+
+        // FUTUROS
+        { id: 'ag15', pacienteId: 'pac15', profissionalId: 'pro01', servicoId: 'ser01', data: dataOffset(1), hora: '08:30', status: 'confirmado', obs: '' },
+        { id: 'ag16', pacienteId: 'pac01', profissionalId: 'pro03', servicoId: 'ser10', data: dataOffset(1), hora: '10:00', status: 'agendado', obs: 'Aplicação de botox' },
+        { id: 'ag17', pacienteId: 'pac02', profissionalId: 'pro06', servicoId: 'ser06', data: dataOffset(2), hora: '09:00', status: 'agendado', obs: '' },
+        { id: 'ag18', pacienteId: 'pac03', profissionalId: 'pro02', servicoId: 'ser08', data: dataOffset(2), hora: '11:30', status: 'confirmado', obs: 'Jejum não necessário' },
+        { id: 'ag19', pacienteId: 'pac05', profissionalId: 'pro05', servicoId: 'ser05', data: dataOffset(3), hora: '14:00', status: 'agendado', obs: '' },
+        { id: 'ag20', pacienteId: 'pac07', profissionalId: 'pro04', servicoId: 'ser04', data: dataOffset(3), hora: '15:00', status: 'agendado', obs: '' },
+        { id: 'ag21', pacienteId: 'pac09', profissionalId: 'pro01', servicoId: 'ser01', data: dataOffset(4), hora: '08:00', status: 'agendado', obs: 'Retorno' },
+        { id: 'ag22', pacienteId: 'pac11', profissionalId: 'pro03', servicoId: 'ser03', data: dataOffset(5), hora: '10:30', status: 'agendado', obs: '' },
+        { id: 'ag23', pacienteId: 'pac13', profissionalId: 'pro06', servicoId: 'ser07', data: dataOffset(6), hora: '13:00', status: 'agendado', obs: '' },
+        { id: 'ag24', pacienteId: 'pac14', profissionalId: 'pro02', servicoId: 'ser02', data: dataOffset(7), hora: '09:45', status: 'agendado', obs: '' },
+        { id: 'ag25', pacienteId: 'pac15', profissionalId: 'pro04', servicoId: 'ser04', data: dataOffset(7), hora: '16:00', status: 'agendado', obs: '' }
+    ];
+
+    // =====================================================
+    //  MÓDULO HORÁRIOS
+    // =====================================================
+    const horarios = [
+        { dia: 0, nome: 'Domingo', aberto: false, inicio: '08:00', fim: '12:00' },
+        { dia: 1, nome: 'Segunda', aberto: true,  inicio: '08:00', fim: '18:00' },
+        { dia: 2, nome: 'Terça',   aberto: true,  inicio: '08:00', fim: '18:00' },
+        { dia: 3, nome: 'Quarta',  aberto: true,  inicio: '08:00', fim: '18:00' },
+        { dia: 4, nome: 'Quinta',  aberto: true,  inicio: '08:00', fim: '20:00' },
+        { dia: 5, nome: 'Sexta',   aberto: true,  inicio: '08:00', fim: '18:00' },
+        { dia: 6, nome: 'Sábado',  aberto: true,  inicio: '08:00', fim: '13:00' }
+    ];
+
+    // =====================================================
+    //  EXECUÇÃO
+    // =====================================================
+    const log = document.getElementById('log');
+
+    function escrever(msg) {
+        log.textContent += '\n' + msg;
+        log.scrollTop = log.scrollHeight;
+    }
+
+    document.getElementById('btnSeed').addEventListener('click', () => {
+        log.textContent = '🌱 Populando banco de dados...';
+        escrever('');
+
+        localStorage.setItem('profissionais', JSON.stringify(profissionais));
+        escrever('✅ ' + profissionais.length + ' profissionais cadastrados');
+
+        localStorage.setItem('servicos', JSON.stringify(servicos));
+        escrever('✅ ' + servicos.length + ' serviços cadastrados');
+
+        localStorage.setItem('pacientes', JSON.stringify(pacientes));
+        escrever('✅ ' + pacientes.length + ' pacientes cadastrados');
+
+        localStorage.setItem('estoque', JSON.stringify(estoque));
+        escrever('✅ ' + estoque.length + ' itens no estoque');
+
+        localStorage.setItem('agendamentos', JSON.stringify(agendamentos));
+        escrever('✅ ' + agendamentos.length + ' agendamentos criados');
+
+        localStorage.setItem('horarios', JSON.stringify(horarios));
+        escrever('✅ Horários de atendimento configurados');
+
+        escrever('');
+        escrever('🎉 Pronto! Agora abra o index.html e faça login com admin / 1234');
+    });
+
+    document.getElementById('btnLimpar').addEventListener('click', () => {
+        if (!confirm('Apagar TODOS os dados salvos?')) return;
+        ['pacientes','profissionais','servicos','estoque','agendamentos','horarios'].forEach(k => localStorage.removeItem(k));
+        localStorage.removeItem('sessao');
+        log.textContent = '🗑️ Todos os dados foram apagados.';
+    });
+    </script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Reset - Clínica Bem-Estar</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f4f7fa;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .box {
+            background: white;
+            padding: 40px;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.12);
+            max-width: 500px;
+            text-align: center;
+        }
+        h1 { color: #1e3a5f; margin-bottom: 12px; font-size: 24px; }
+        p { color: #718096; margin-bottom: 24px; line-height: 1.6; }
+        .alerta {
+            background: #fff5f5;
+            border-left: 4px solid #e74c3c;
+            padding: 16px;
+            border-radius: 8px;
+            text-align: left;
+            margin-bottom: 24px;
+            font-size: 14px;
+            color: #742a2a;
+        }
+        button {
+            padding: 14px 28px;
+            font-size: 16px;
+            font-weight: 600;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all .2s;
+            margin: 5px;
+        }
+        .btn-limpar {
+            background: #e74c3c;
+            color: white;
+        }
+        .btn-limpar:hover { background: #c0392b; }
+        .btn-ir {
+            background: #27ae60;
+            color: white;
+        }
+        .btn-ir:hover { background: #219a52; }
+        .resultado {
+            margin-top: 24px;
+            padding: 16px;
+            border-radius: 8px;
+            background: #f0fff4;
+            border-left: 4px solid #27ae60;
+            color: #22543d;
+            font-size: 14px;
+            display: none;
+        }
+        .resultado.ativo { display: block; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>🔄 Reset do Sistema</h1>
+        <p>
+            Este arquivo limpa os dados salvos no navegador pra forçar o sistema
+            a recriar tudo do zero (com os usuários novos).
+        </p>
+
+        <div class="alerta">
+            ⚠️ <strong>Atenção:</strong> Isso apaga <em>todos</em> os dados
+            (pacientes, agendamentos, estoque, etc.). Como são dados de teste,
+            não tem problema.
+        </div>
+
+        <button class="btn-limpar" id="btnLimpar">
+            🗑️ Limpar Tudo e Recarregar
+        </button>
+
+        <div class="resultado" id="resultado">
+            ✅ <strong>Pronto!</strong> Todos os dados foram apagados.<br>
+            Agora vá para o <a href="index.html" style="color: #27ae60; font-weight: 600;">login</a>
+            e entre com:<br>
+            <code>admin@clinica.com</code> / <code>admin123</code>
+        </div>
+    </div>
+
+    <script>
+        document.getElementById('btnLimpar').addEventListener('click', () => {
+            if (!confirm('Tem certeza que quer apagar TODOS os dados?')) return;
+
+            // Limpa tudo
+            localStorage.clear();
+            sessionStorage.clear();
+
+            // Mostra mensagem
+            document.getElementById('resultado').classList.add('ativo');
+
+            // Auto-redireciona em 3 segundos
+            setTimeout(() => {
+                window.location.href = 'index.html';
+            }, 3000);
+        });
+    </script>
+</body>
+</html>
