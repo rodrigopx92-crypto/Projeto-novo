@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Expandir Dados - Clínica</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: #f4f7fa;
+               padding: 40px 20px; min-height: 100vh; }
+        .box { max-width: 700px; margin: 0 auto; background: white; padding: 40px;
+               border-radius: 12px; box-shadow: 0 8px 24px rgba(0,0,0,0.12); }
+        h1 { color: #1e3a5f; margin-bottom: 12px; font-size: 26px; }
+        p { color: #718096; margin-bottom: 24px; line-height: 1.6; }
+        .alerta { background: #fff5f5; border-left: 4px solid #e74c3c;
+                  padding: 16px; border-radius: 8px; margin-bottom: 24px;
+                  font-size: 14px; color: #742a2a; line-height: 1.6; }
+        button { padding: 14px 28px; font-size: 15px; font-weight: 600;
+                 border: none; border-radius: 8px; cursor: pointer;
+                 transition: all .2s; margin: 5px 5px 5px 0; }
+        .btn-expandir { background: #27ae60; color: white; }
+        .btn-expandir:hover { background: #219a52; transform: translateY(-2px); }
+        .btn-reset { background: #e74c3c; color: white; }
+        .btn-reset:hover { background: #c0392b; }
+        .log { background: #1e3a5f; color: #38b2ac; padding: 24px;
+               border-radius: 8px; font-family: 'Consolas', monospace;
+               font-size: 13px; white-space: pre-wrap; line-height: 1.7;
+               margin-top: 24px; max-height: 500px; overflow-y: auto; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h1>📈 Expandir Base de Dados</h1>
+        <p>Este arquivo adiciona <strong>dados históricos realistas</strong> para atingir 200+ registros: pacientes, agendamentos dos últimos 6 meses, pagamentos, movimentações de estoque e logs.</p>
+
+        <div class="alerta">
+            ⚠️ <strong>Antes de rodar:</strong> tenha feito login pelo menos uma vez (pra ter o seed básico). Se você já resetou, está tudo pronto. Rode apenas <strong>uma vez</strong> — rodar de novo vai duplicar os dados.
+        </div>
+
+        <button class="btn-expandir" id="btnExpandir">🚀 Expandir Base de Dados</button>
+        <button class="btn-reset" id="btnReset">🗑️ Limpar Tudo</button>
+
+        <div class="log" id="log">Aguardando...</div>
+    </div>
+
+    <script>
+        const log = document.getElementById('log');
+        function escrever(msg) {
+            log.textContent += '\n' + msg;
+            log.scrollTop = log.scrollHeight;
+        }
+        function carregar(k) { return JSON.parse(localStorage.getItem(k)) || []; }
+        function salvar(k, d) { localStorage.setItem(k, JSON.stringify(d)); }
+        function gerarId() { return Date.now() + Math.random().toString(36).slice(2, 8); }
+        function dataOffset(d) {
+            const x = new Date(); x.setDate(x.getDate() + d);
+            return x.toISOString().split('T')[0];
+        }
+
+        document.getElementById('btnExpandir').addEventListener('click', () => {
+            if (!confirm('Isso vai adicionar ~300 novos registros. Continuar?')) return;
+
+            log.textContent = '🚀 Expandindo base de dados...\n';
+            escrever('');
+
+            const pacientes      = carregar('pacientes');
+            const profissionais  = carregar('profissionais');
+            const servicos       = carregar('servicos');
+            const agendamentos   = carregar('agendamentos');
+            const pagamentos     = carregar('pagamentos');
+            const movimentacoes  = carregar('movimentacoes');
+            const estoque        = carregar('estoque');
+            const logs           = carregar('logs');
+
+            if (pacientes.length === 0) {
+                alert('❌ Rode primeiro o sistema (login) para ter o seed básico.');
+                return;
+            }
+
+            /* ============ 1. PACIENTES EXTRAS ============ */
+            const nomesM = ['Pedro','Lucas','Gabriel','Matheus','Rafael','Bruno','Felipe','Thiago','Diego','Rodrigo','André','Marcelo','Fábio','Vinícius','Leonardo','Guilherme','Ricardo','Eduardo','Daniel','Henrique'];
+            const nomesF = ['Ana','Beatriz','Carla','Daniela','Eduarda','Fernanda','Gabriela','Helena','Isabela','Júlia','Larissa','Marina','Natália','Olívia','Patrícia','Renata','Sofia','Tatiana','Valentina','Yasmin'];
+            const sobrenomes = ['Silva','Santos','Oliveira','Souza','Lima','Costa','Ferreira','Almeida','Rodrigues','Nascimento','Carvalho','Gomes','Martins','Rocha','Ribeiro','Alves','Monteiro','Mendes','Barbosa','Pinto'];
+            const cidades = ['São Paulo','Guarulhos','Osasco','Santo André','São Bernardo','Campinas','Santos','Ribeirão Preto'];
+
+            const novosPacientes = [];
+            const totalPac = Math.max(0, 40 - pacientes.length);
+            for (let i = 0; i < totalPac; i++) {
+                const isM = Math.random() > 0.5;
+                const lista = isM ? nomesM : nomesF;
+                const nome = lista[Math.floor(Math.random() * lista.length)] + ' ' +
+                             sobrenomes[Math.floor(Math.random() * sobrenomes.length)] + ' ' +
+                             sobrenomes[Math.floor(Math.random() * sobrenomes.length)];
+                const anoNasc = 1950 + Math.floor(Math.random() * 55);
+                const mes = String(1 + Math.floor(Math.random() * 12)).padStart(2, '0');
+                const dia = String(1 + Math.floor(Math.random() * 28)).padStart(2, '0');
+
+                novosPacientes.push({
+                    id: 'pac' + String(pacientes.length + i + 1).padStart(2, '0'),
+                    nome,
+                    cpf: `${100 + i}.${200 + i}.${300 + i}-${String(i % 100).padStart(2, '0')}`,
+                    telefone: `(11) 9${String(8000 + i).slice(-4)}-${String(1000 + i).slice(-4)}`,
+                    email: nome.toLowerCase().replace(/\s+/g, '.') + '@email.com',
+                    nascimento: `${anoNasc}-${mes}-${dia}`,
+                    endereco: `Rua das Palmeiras, ${100 + i} - ${cidades[Math.floor(Math.random() * cidades.length)]}/SP`
+                });
+            }
+            const todosPacientes = [...pacientes, ...novosPacientes];
+            salvar('pacientes', todosPacientes);
+            escrever(`✅ Pacientes: ${pacientes.length} → ${todosPacientes.length} (+${novosPacientes.length})`);
+
+            /* ============ 2. AGENDAMENTOS HISTÓRICOS ============ */
+            const statusHistoricos = ['realizado','realizado','realizado','realizado','cancelado','realizado','realizado','realizado'];
+            const novosAgendamentos = [];
+            let idAg = agendamentos.length + 1;
+
+            // Agendamentos dos últimos 180 dias
+            for (let d = -180; d <= -1; d++) {
+                const diaSemana = new Date(Date.now() + d * 86400000).getDay();
+                let qtdDia = diaSemana === 0 ? 0 : Math.floor(Math.random() * 3) + 1;
+
+                for (let j = 0; j < qtdDia; j++) {
+                    const hora = String(8 + Math.floor(Math.random() * 10)).padStart(2, '0') + ':00';
+                    const pac = todosPacientes[Math.floor(Math.random() * todosPacientes.length)];
+                    const pro = profissionais[Math.floor(Math.random() * profissionais.length)];
+                    const ser = servicos[Math.floor(Math.random() * servicos.length)];
+                    const status = statusHistoricos[Math.floor(Math.random() * statusHistoricos.length)];
+
+                    novosAgendamentos.push({
+                        id: 'ag' + String(idAg++).padStart(3, '0'),
+                        pacienteId: pac.id,
+                        profissionalId: pro.id,
+                        servicoId: ser.id,
+                        data: dataOffset(d),
+                        hora,
+                        status,
+                        obs: ''
+                    });
+                }
+            }
+
+            // Alguns agendamentos futuros
+            for (let d = 1; d <= 15; d++) {
+                const qtdDia = Math.floor(Math.random() * 3);
+                for (let j = 0; j < qtdDia; j++) {
+                    const hora = String(8 + Math.floor(Math.random() * 10)).padStart(2, '0') + ':00';
+                    const pac = todosPacientes[Math.floor(Math.random() * todosPacientes.length)];
+                    const pro = profissionais[Math.floor(Math.random() * profissionais.length)];
+                    const ser = servicos[Math.floor(Math.random() * servicos.length)];
+                    const status = Math.random() > 0.5 ? 'agendado' : 'confirmado';
+
+                    novosAgendamentos.push({
+                        id: 'ag' + String(idAg++).padStart(3, '0'),
+                        pacienteId: pac.id,
+                        profissionalId: pro.id,
+                        servicoId: ser.id,
+                        data: dataOffset(d),
+                        hora,
+                        status,
+                        obs: ''
+                    });
+                }
+            }
+
+            const todosAgendamentos = [...agendamentos, ...novosAgendamentos];
+            salvar('agendamentos', todosAgendamentos);
+            escrever(`✅ Agendamentos: ${agendamentos.length} → ${todosAgendamentos.length} (+${novosAgendamentos.length})`);
+
+            /* ============ 3. PAGAMENTOS AUTOMÁTICOS ============ */
+            const formas = ['dinheiro','pix','debito','credito','convenio'];
+            const jaPagos = new Set(pagamentos.map(p => p.agendamentoId));
+            const novosPagamentos = [];
+            let idPag = pagamentos.length + 1;
+
+            todosAgendamentos.filter(a => a.status === 'realizado').forEach(ag => {
+                if (jaPagos.has(ag.id)) return;
+                if (Math.random() > 0.85) return; // 15% não têm registro
+
+                const serv = servicos.find(s => s.id === ag.servicoId) || { preco: 100 };
+                const estaPago = Math.random() > 0.15; // 85% pago
+                const forma = formas[Math.floor(Math.random() * formas.length)];
+
+                novosPagamentos.push({
+                    id: 'pag' + String(idPag++).padStart(3, '0'),
+                    agendamentoId: ag.id,
+                    valor: serv.preco,
+                    forma,
+                    status: estaPago ? 'pago' : 'pendente',
+                    data: ag.data,
+                    obs: '',
+                    usuario: Math.random() > 0.5 ? 'Recepção Clínica' : 'Administrador'
+                });
+            });
+
+            const todosPagamentos = [...pagamentos, ...novosPagamentos];
+            salvar('pagamentos', todosPagamentos);
+            escrever(`✅ Pagamentos: ${pagamentos.length} → ${todosPagamentos.length} (+${novosPagamentos.length})`);
+
+            /* ============ 4. MOVIMENTAÇÕES EXTRAS ============ */
+            const novosMovs = [];
+            let idMov = movimentacoes.length + 1;
+
+            for (let i = 0; i < 30; i++) {
+                const item = estoque[Math.floor(Math.random() * estoque.length)];
+                const tipo = Math.random() > 0.6 ? 'entrada' : 'saida';
+                const qtd = 1 + Math.floor(Math.random() * 15);
+                const motivo = tipo === 'entrada'
+                    ? ['compra','devolucao','ajuste'][Math.floor(Math.random() * 3)]
+                    : ['uso','perda','vencimento','ajuste'][Math.floor(Math.random() * 4)];
+                const dias = -Math.floor(Math.random() * 90);
+
+                novosMovs.push({
+                    id: 'mov' + String(idMov++).padStart(3, '0'),
+                    itemId: item.id,
+                    tipo,
+                    quantidade: qtd,
+                    motivo,
+                    data: dataOffset(dias),
+                    usuario: Math.random() > 0.5 ? 'Recepção Clínica' : 'Administrador',
+                    obs: ''
+                });
+            }
+
+            const todosMovs = [...movimentacoes, ...novosMovs];
+            salvar('movimentacoes', todosMovs);
+            escrever(`✅ Movimentações: ${movimentacoes.length} → ${todosMovs.length} (+${novosMovs.length})`);
+
+            /* ============ 5. LOGS HISTÓRICOS ============ */
+            const acoesLog = [
+                { acao: 'login',   det: (u) => `Usuário ${u} entrou no sistema` },
+                { acao: 'logout',  det: (u) => `Usuário ${u} saiu do sistema` },
+                { acao: 'criar',   det: ()  => `Paciente cadastrado` },
+                { acao: 'criar',   det: ()  => `Agendamento criado` },
+                { acao: 'criar',   det: ()  => `Pagamento registrado` },
+                { acao: 'editar',  det: ()  => `Agendamento editado` },
+                { acao: 'editar',  det: ()  => `Item do estoque editado` },
+                { acao: 'excluir', det: ()  => `Agendamento cancelado` },
+                { acao: 'editar',  det: ()  => `Usuário editado` },
+                { acao: 'criar',   det: ()  => `Fornecedor cadastrado` }
+            ];
+            const usuariosLista = ['Administrador','Recepção Clínica','Dra. Ana Souza'];
+            const novosLogs = [];
+
+            for (let i = 0; i < 50; i++) {
+                const a = acoesLog[Math.floor(Math.random() * acoesLog.length)];
+                const u = usuariosLista[Math.floor(Math.random() * usuariosLista.length)];
+                const dias = -Math.floor(Math.random() * 90);
+                const d = new Date(); d.setDate(d.getDate() + dias);
+                d.setHours(8 + Math.floor(Math.random() * 12), Math.floor(Math.random() * 60));
+
+                novosLogs.push({
+                    id: gerarId(),
+                    data: d.toLocaleDateString('pt-BR') + ' ' + d.toLocaleTimeString('pt-BR'),
+                    usuario: u,
+                    email: u.toLowerCase().replace(/\s+/g, '.') + '@clinica.com',
+                    acao: a.acao,
+                    detalhe: a.det(u)
+                });
+            }
+
+            const todosLogs = [...logs, ...novosLogs].slice(-500);
+            salvar('logs', todosLogs);
+            escrever(`✅ Logs: ${logs.length} → ${todosLogs.length} (+${novosLogs.length})`);
+
+            /* ============ RESUMO ============ */
+            escrever('');
+            escrever('🎉 EXPANSÃO CONCLUÍDA!\n');
+
+            const resumo = {
+                usuarios: carregar('usuarios').length,
+                profissionais: carregar('profissionais').length,
+                servicos: carregar('servicos').length,
+                pacientes: carregar('pacientes').length,
+                fornecedores: carregar('fornecedores').length,
+                estoque: carregar('estoque').length,
+                agendamentos: carregar('agendamentos').length,
+                horarios: carregar('horarios').length,
+                movimentacoes: carregar('movimentacoes').length,
+                pagamentos: carregar('pagamentos').length,
+                logs: carregar('logs').length
+            };
+
+            let total = 0;
+            escrever('📊 TOTAL POR TABELA:');
+            Object.entries(resumo).forEach(([k, v]) => {
+                total += v;
+                escrever(`   ${k.padEnd(15)} ${String(v).padStart(5)}`);
+            });
+            escrever('');
+            escrever(`🎯 TOTAL GERAL: ${total} registros`);
+
+            const pag = carregar('pagamentos');
+            const pagosTot = pag.filter(p => p.status === 'pago').reduce((s, p) => s + Number(p.valor || 0), 0);
+            const pendTot = pag.filter(p => p.status === 'pendente').reduce((s, p) => s + Number(p.valor || 0), 0);
+            escrever('');
+            escrever('💰 FINANCEIRO:');
+            escrever(`   Recebido:  R$ ${pagosTot.toFixed(2)}`);
+            escrever(`   A receber: R$ ${pendTot.toFixed(2)}`);
+
+            escrever('');
+            escrever('✅ Agora abra o painel e faça login!');
+        });
+
+        document.getElementById('btnReset').addEventListener('click', () => {
+            if (!confirm('Apagar TODOS os dados?')) return;
+            localStorage.clear();
+            sessionStorage.clear();
+            log.textContent = '🗑️ Dados apagados. Rode novamente o seed pelo painel.';
+        });
+    </script>
+</body>
+</html>

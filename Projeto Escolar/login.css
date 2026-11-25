@@ -1,0 +1,1065 @@
+/* ===================== LOGIN PAGE — DESIGN NOVO ===================== */
+.login-page {
+    background: #0f172a;
+    overflow-x: hidden;
+}
+
+.login-wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* ============ LADO ESQUERDO — BRANDING ============ */
+.login-brand {
+    flex: 1.15;
+    position: relative;
+    color: white;
+    padding: 40px 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: linear-gradient(135deg, #0f2744 0%, #1a365d 50%, #0c4a6e 100%);
+}
+
+.brand-bg-image {
+    position: absolute;
+    inset: 0;
+    background-image: url('https://images.unsplash.com/photo-1631217868264-e5b90bb7e133?w=1400&q=80&auto=format&fit=crop');
+    background-size: cover;
+    background-position: center;
+    opacity: 0.12;
+    filter: blur(1px);
+}
+
+.brand-overlay {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 20% 80%, rgba(20,184,166,0.18), transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(56,189,248,0.15), transparent 50%);
+    pointer-events: none;
+}
+
+.brand-content {
+    position: relative;
+    z-index: 2;
+    max-width: 620px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+}
+
+/* ============ LOGO E TAGLINE ============ */
+.brand-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 20px;
+}
+
+.brand-logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+}
+
+.logo-icon {
+    width: 52px;
+    height: 52px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    border-radius: 14px;
+    padding: 6px;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+}
+
+.logo-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.brand-name h1 {
+    font-size: 26px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+    color: white;
+}
+
+.brand-name h1 span {
+    color: #5eead4;
+}
+
+.brand-name p {
+    font-size: 10px;
+    color: #5eead4;
+    letter-spacing: 3px;
+    font-weight: 600;
+    margin-top: 4px;
+    opacity: 0.9;
+}
+
+.tagline-script {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: #5eead4;
+    text-align: right;
+    line-height: 1.1;
+    transform: rotate(-4deg);
+    opacity: 0.9;
+    margin-top: 8px;
+}
+
+/* ============ HERO ============ */
+.brand-hero h2 {
+    font-size: 52px;
+    font-weight: 900;
+    line-height: 1.05;
+    letter-spacing: -2px;
+    margin-bottom: 18px;
+    color: white;
+}
+
+.brand-hero h2 .accent {
+    color: #2dd4bf;
+    display: inline-block;
+}
+
+.brand-desc {
+    font-size: 15px;
+    color: rgba(255,255,255,0.75);
+    line-height: 1.7;
+    max-width: 520px;
+}
+
+.brand-desc strong {
+    color: white;
+    font-weight: 700;
+}
+
+/* ============ GRID DE FEATURE CARDS ============ */
+.feature-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+}
+
+.feature-card {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 16px 18px;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 16px;
+    backdrop-filter: blur(10px);
+    transition: all 0.3s ease;
+    cursor: pointer;
+}
+
+.feature-card:hover {
+    background: rgba(255,255,255,0.12);
+    border-color: rgba(45,212,191,0.5);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+}
+
+.feature-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    color: white;
+}
+
+.feature-icon svg {
+    width: 22px;
+    height: 22px;
+}
+
+.icon-green { background: linear-gradient(135deg, #10b981, #059669); box-shadow: 0 4px 12px rgba(16,185,129,0.35); }
+.icon-purple { background: linear-gradient(135deg, #8b5cf6, #7c3aed); box-shadow: 0 4px 12px rgba(139,92,246,0.35); }
+.icon-orange { background: linear-gradient(135deg, #f59e0b, #d97706); box-shadow: 0 4px 12px rgba(245,158,11,0.35); }
+.icon-blue { background: linear-gradient(135deg, #3b82f6, #2563eb); box-shadow: 0 4px 12px rgba(59,130,246,0.35); }
+
+.feature-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.feature-text strong {
+    display: block;
+    font-size: 14px;
+    color: white;
+    font-weight: 700;
+    margin-bottom: 3px;
+}
+
+.feature-text p {
+    font-size: 12px;
+    color: rgba(255,255,255,0.65);
+    line-height: 1.4;
+}
+
+.feature-arrow {
+    color: rgba(255,255,255,0.4);
+    font-size: 18px;
+    transition: transform 0.3s, color 0.3s;
+}
+
+.feature-card:hover .feature-arrow {
+    color: #5eead4;
+    transform: translateX(4px);
+}
+
+/* ============ RODAPÉ DO LADO ESQUERDO ============ */
+.brand-footer {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    padding-top: 24px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    position: relative;
+}
+
+.dev-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+}
+
+.code-icon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 10px;
+    color: #5eead4;
+    flex-shrink: 0;
+}
+
+.code-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.dev-text small {
+    display: block;
+    font-size: 11px;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.5px;
+    margin-bottom: 2px;
+}
+
+.dev-text strong {
+    font-size: 15px;
+    color: white;
+    font-weight: 700;
+    letter-spacing: -0.2px;
+}
+
+.fatec-logo {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    padding-left: 24px;
+    border-left: 1px solid rgba(255,255,255,0.15);
+}
+
+.fatec-script {
+    font-family: 'Inter', sans-serif;
+    font-size: 26px;
+    font-weight: 900;
+    color: white;
+    letter-spacing: -1px;
+    line-height: 1;
+}
+
+.fatec-logo small {
+    font-size: 11px;
+    color: #5eead4;
+    font-weight: 600;
+    letter-spacing: 1px;
+    margin-top: 2px;
+}
+
+.bottom-script {
+    position: absolute;
+    bottom: -30px;
+    right: 0;
+    font-family: 'Caveat', cursive;
+    font-size: 20px;
+    color: #5eead4;
+    text-align: right;
+    line-height: 1.1;
+    transform: rotate(-3deg);
+    opacity: 0.85;
+    pointer-events: none;
+}
+
+/* ============ LADO DIREITO — FORMULÁRIO ============ */
+.login-form-side {
+    flex: 1;
+    background: #f1f5f9;
+    padding: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+}
+
+.login-form-side::before,
+.login-form-side::after {
+    content: '';
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(20,184,166,0.08);
+    pointer-events: none;
+}
+
+.login-form-side::before {
+    width: 300px;
+    height: 300px;
+    top: -80px;
+    right: -80px;
+}
+
+.login-form-side::after {
+    width: 200px;
+    height: 200px;
+    bottom: -60px;
+    left: -60px;
+}
+
+.login-form-container {
+    width: 100%;
+    max-width: 440px;
+    background: white;
+    padding: 40px 42px;
+    border-radius: 24px;
+    box-shadow: 0 20px 60px rgba(15,23,42,0.08), 0 4px 16px rgba(15,23,42,0.04);
+    position: relative;
+    z-index: 1;
+    animation: slideUp 0.5s ease;
+}
+
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* ============ LOGO PEQUENO NO FORM ============ */
+.form-logo {
+    text-align: center;
+    margin-bottom: 26px;
+}
+
+.logo-icon.small {
+    width: 46px;
+    height: 46px;
+    margin: 0 auto 12px;
+    background: linear-gradient(135deg, #f0f9ff, #ecfeff);
+    border: 1px solid #bae6fd;
+    padding: 5px;
+}
+
+.form-logo h3 {
+    font-size: 22px;
+    font-weight: 800;
+    color: #0f2744;
+    letter-spacing: -0.5px;
+    line-height: 1.1;
+}
+
+.form-logo h3 span {
+    color: #14b8a6;
+}
+
+.form-logo p {
+    font-size: 9px;
+    color: #14b8a6;
+    letter-spacing: 2.5px;
+    font-weight: 700;
+    margin-top: 4px;
+}
+
+/* ============ CABEÇALHO DO FORM ============ */
+.form-header {
+    margin-bottom: 26px;
+}
+
+.form-header h2 {
+    font-size: 24px;
+    font-weight: 800;
+    color: #0f172a;
+    margin-bottom: 6px;
+    letter-spacing: -0.5px;
+}
+
+.form-header p {
+    font-size: 13px;
+    color: #64748b;
+}
+
+/* ============ INPUTS ============ */
+.input-group {
+    margin-bottom: 16px;
+}
+
+.input-group label {
+    display: block;
+    font-size: 13px;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 8px;
+}
+
+.input-with-icon {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.input-icon {
+    position: absolute;
+    left: 14px;
+    width: 18px;
+    height: 18px;
+    color: #94a3b8;
+    pointer-events: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.input-icon svg {
+    width: 100%;
+    height: 100%;
+}
+
+.input-with-icon input {
+    width: 100%;
+    padding: 13px 44px 13px 42px;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    font-size: 14px;
+    color: #0f172a;
+    background: #f8fafc;
+    transition: all 0.2s ease;
+    font-family: inherit;
+}
+
+.input-with-icon input:focus {
+    outline: none;
+    border-color: #14b8a6;
+    background: white;
+    box-shadow: 0 0 0 4px rgba(20,184,166,0.1);
+}
+
+.input-with-icon input::placeholder {
+    color: #cbd5e1;
+}
+
+.toggle-pass {
+    position: absolute;
+    right: 12px;
+    width: 24px;
+    height: 24px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    color: #94a3b8;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 6px;
+    transition: all 0.2s;
+}
+
+.toggle-pass svg { width: 18px; height: 18px; }
+
+.toggle-pass:hover { color: #14b8a6; background: #f0fdfa; }
+.toggle-pass.ativo { color: #14b8a6; }
+
+/* ============ LINHA "LEMBRAR / ESQUECI" ============ */
+.form-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin: 18px 0 22px;
+    gap: 12px;
+}
+
+.check-lembrar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 13px;
+    color: #475569;
+    user-select: none;
+    margin: 0;
+    font-weight: 500;
+}
+
+.check-lembrar input[type="checkbox"] { display: none; }
+
+.check-box {
+    width: 18px;
+    height: 18px;
+    border: 1.5px solid #cbd5e1;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+    background: white;
+}
+
+.check-lembrar input:checked + .check-box {
+    background: #14b8a6;
+    border-color: #14b8a6;
+}
+
+.check-lembrar input:checked + .check-box::after {
+    content: '✓';
+    color: white;
+    font-size: 11px;
+    font-weight: bold;
+}
+
+.link-esqueci {
+    color: #0284c7;
+    font-size: 13px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.2s;
+    white-space: nowrap;
+}
+
+.link-esqueci:hover { color: #14b8a6; text-decoration: underline; }
+
+/* ============ BOTÃO ENTRAR ============ */
+.btn-entrar {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #0284c7 0%, #14b8a6 100%);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-size: 15px;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    transition: all 0.3s ease;
+    box-shadow: 0 8px 20px rgba(20,184,166,0.35);
+    font-family: inherit;
+    letter-spacing: 0.3px;
+}
+
+.btn-entrar:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 28px rgba(20,184,166,0.45);
+}
+
+.btn-entrar:active { transform: translateY(0); }
+
+.btn-entrar:disabled {
+    opacity: 0.75;
+    cursor: wait;
+    transform: none;
+}
+
+.btn-entrar .btn-text {
+    flex: 1;
+    text-align: center;
+}
+
+.btn-entrar .arrow-in,
+.btn-entrar .arrow-out {
+    font-size: 16px;
+    transition: transform 0.3s ease;
+}
+
+.btn-entrar:hover .arrow-out { transform: translateX(4px); }
+.btn-entrar:hover .arrow-in { transform: translateX(-2px); }
+
+/* ============ ERRO ============ */
+.erro {
+    margin-top: 14px;
+    padding: 11px;
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    color: #dc2626;
+    font-size: 13px;
+    text-align: center;
+    display: none;
+    animation: shake 0.4s ease;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-6px); }
+    75% { transform: translateX(6px); }
+}
+
+/* ============ DIVISOR E CONTAS DE TESTE ============ */
+.login-divider {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 26px 0 16px;
+    color: #94a3b8;
+    font-size: 10px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1.5px;
+}
+
+.login-divider::before,
+.login-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #e2e8f0;
+}
+
+.demo-accounts {
+    display: grid;
+    gap: 8px;
+}
+
+.demo-account {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 11px 14px;
+    background: #f8fafc;
+    border: 1.5px solid #e2e8f0;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.demo-account:hover {
+    background: white;
+    border-color: #14b8a6;
+    transform: translateX(4px);
+    box-shadow: 0 4px 14px rgba(20,184,166,0.15);
+}
+
+.demo-icon {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+    color: white;
+}
+
+.demo-icon.admin { background: linear-gradient(135deg, #3b82f6, #2563eb); }
+.demo-icon.recepcao { background: linear-gradient(135deg, #10b981, #059669); }
+.demo-icon.profissional { background: linear-gradient(135deg, #8b5cf6, #7c3aed); }
+
+.demo-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.demo-info strong {
+    display: block;
+    font-size: 13px;
+    color: #0f172a;
+    font-weight: 700;
+    margin-bottom: 2px;
+}
+
+.demo-info span {
+    font-size: 11px;
+    color: #64748b;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* ============ RESPONSIVO ============ */
+@media (max-width: 1100px) {
+    .login-wrapper { flex-direction: column; }
+    .login-brand { padding: 40px 24px 60px; min-height: auto; }
+    .brand-content { max-width: 100%; gap: 30px; }
+    .brand-hero h2 { font-size: 38px; letter-spacing: -1.5px; }
+    .bottom-script { position: static; text-align: center; margin-top: 10px; transform: none; }
+    .login-form-side { padding: 30px 20px 50px; }
+}
+
+@media (max-width: 640px) {
+    .login-brand { padding: 30px 20px 40px; }
+    .brand-top { flex-direction: column; align-items: flex-start; gap: 12px; }
+    .tagline-script { text-align: left; transform: none; font-size: 18px; }
+    .brand-hero h2 { font-size: 30px; letter-spacing: -1px; }
+    .feature-grid { grid-template-columns: 1fr; }
+    .brand-footer { flex-direction: column; gap: 16px; align-items: flex-start; }
+    .fatec-logo { padding-left: 0; border-left: none; align-items: flex-start; padding-top: 12px; border-top: 1px solid rgba(255,255,255,0.15); width: 100%; }
+    .login-form-container { padding: 30px 22px; }
+    .form-header h2 { font-size: 20px; }
+    .form-row { flex-direction: column; align-items: flex-start; gap: 10px; }
+    .link-esqueci { white-space: normal; }
+}
+/* Ajuste final inspirado na arte premium da Clínica Bem-Estar */
+.login-brand {
+    flex: 1.18;
+    background:
+        radial-gradient(circle at 78% 14%, rgba(20,184,166,.18), transparent 28%),
+        linear-gradient(135deg, #062d55 0%, #0c3d70 48%, #163f9b 100%);
+}
+
+.brand-bg-image {
+    opacity: .18;
+    background-position: center;
+}
+
+.brand-overlay {
+    background:
+        radial-gradient(circle at 18% 85%, rgba(20,184,166,.20), transparent 44%),
+        radial-gradient(circle at 85% 18%, rgba(56,189,248,.17), transparent 42%),
+        linear-gradient(90deg, rgba(6,45,85,.22), rgba(16,62,151,.06));
+}
+
+.feature-card {
+    box-shadow: inset 0 1px 0 rgba(255,255,255,.04);
+}
+
+.login-form-side {
+    background:
+        radial-gradient(circle at 95% 0%, rgba(37,99,235,.08), transparent 28%),
+        radial-gradient(circle at 0% 100%, rgba(20,184,166,.07), transparent 26%),
+        #f5f9fc;
+}
+
+.login-form-container {
+    border: 1px solid #e2ebf3;
+    box-shadow: 0 25px 60px rgba(15,23,42,.13);
+}
+
+.btn-entrar {
+    background: linear-gradient(135deg, #0b477e 0%, #1175aa 52%, #13b9c5 100%);
+    box-shadow: 0 8px 22px rgba(13,104,158,.27);
+}
+
+.btn-entrar:hover {
+    box-shadow: 0 12px 28px rgba(13,104,158,.34);
+}
+
+@media (max-width: 1100px) {
+    .login-brand { display: none; }
+}
+
+/* =========================================================
+   LOGIN — AJUSTE PRECISO DO MODELO PREMIUM
+   Mantém o HTML/JS funcional e corrige proporções/rodapé.
+   ========================================================= */
+.login-page {
+    min-height: 100vh;
+    overflow: hidden;
+    font-family: 'Inter', sans-serif;
+}
+
+.login-wrapper {
+    width: 100vw;
+    height: 100vh;
+    min-height: 700px;
+    display: flex;
+    flex-direction: row;
+}
+
+.login-brand {
+    flex: 0 0 62%;
+    width: 62%;
+    min-width: 0;
+    padding: 42px 58px 30px;
+    background: linear-gradient(135deg, #062b50 0%, #0b477b 48%, #173f96 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+/* Foto realçada no centro/direita do painel esquerdo */
+.login-brand::after {
+    content: '';
+    position: absolute;
+    z-index: 0;
+    top: 112px;
+    right: -2px;
+    width: 51%;
+    height: 560px;
+    background-image: url('clinic-stethoscope.jpg');
+    background-size: cover;
+    background-position: center;
+    border-radius: 58% 0 0 58% / 48% 0 0 48%;
+    opacity: .90;
+    box-shadow: -25px 0 55px rgba(5,35,65,.18);
+}
+
+.login-brand::before {
+    content: '';
+    position: absolute;
+    z-index: 1;
+    top: 0;
+    right: 0;
+    width: 55%;
+    height: 100%;
+    background: linear-gradient(90deg, rgba(7,49,91,.96) 0%, rgba(7,49,91,.25) 35%, rgba(13,68,125,.04) 100%);
+    pointer-events: none;
+}
+
+.brand-bg-image {
+    display: none;
+}
+
+.brand-overlay {
+    z-index: 2;
+    background:
+        radial-gradient(circle at 14% 90%, rgba(20,184,166,.22), transparent 34%),
+        radial-gradient(circle at 92% 12%, rgba(56,189,248,.16), transparent 30%);
+}
+
+.brand-content {
+    z-index: 3;
+    max-width: 900px;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    gap: 0;
+}
+
+.brand-top {
+    flex: 0 0 auto;
+}
+
+.brand-logo {
+    gap: 14px;
+}
+
+.brand-name h1 {
+    font-size: 28px;
+}
+
+.brand-hero {
+    margin-top: 72px;
+    max-width: 580px;
+}
+
+.brand-hero h2 {
+    font-size: clamp(42px, 4.1vw, 58px);
+    line-height: .98;
+    margin-bottom: 22px;
+}
+
+.brand-desc {
+    max-width: 565px;
+    font-size: 15px;
+    line-height: 1.65;
+}
+
+.feature-grid {
+    width: min(690px, 100%);
+    margin-top: 34px;
+    gap: 16px;
+}
+
+.feature-card {
+    min-height: 116px;
+    padding: 16px 18px;
+    border-radius: 16px;
+    background: rgba(255,255,255,.075);
+    border-color: rgba(255,255,255,.16);
+}
+
+.feature-text strong {
+    font-size: 15px;
+}
+
+.feature-text p {
+    font-size: 12px;
+    max-width: 180px;
+}
+
+.brand-footer {
+    width: min(690px, 100%);
+    margin-top: auto;
+    padding-top: 20px;
+    padding-bottom: 2px;
+    position: relative;
+    z-index: 4;
+}
+
+.bottom-script {
+    position: absolute;
+    right: 4px;
+    bottom: 0;
+    z-index: 5;
+    font-family: 'Caveat', cursive;
+    font-size: 20px;
+    line-height: 1.05;
+    color: #5eead4;
+    text-align: center;
+    transform: rotate(-4deg);
+}
+
+.login-form-side {
+    flex: 0 0 38%;
+    width: 38%;
+    min-width: 0;
+    padding: 28px 26px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background:
+        radial-gradient(circle at 100% 0%, rgba(37,99,235,.09), transparent 28%),
+        radial-gradient(circle at 0% 100%, rgba(20,184,166,.09), transparent 28%),
+        #f4f8fc;
+}
+
+.login-form-container {
+    width: min(510px, 100%);
+    max-height: calc(100vh - 56px);
+    overflow: hidden;
+    padding: 28px 42px 24px;
+    border-radius: 22px;
+    background: rgba(255,255,255,.97);
+    border: 1px solid #e3ebf3;
+    box-shadow: 0 25px 60px rgba(15,23,42,.13);
+}
+
+.form-logo {
+    margin-bottom: 24px;
+}
+
+.form-logo .logo-icon.small {
+    width: 54px;
+    height: 54px;
+    margin: 0 auto 9px;
+    background: linear-gradient(145deg, #ecfbff, #ffffff);
+    border-color: #bdeaf1;
+    box-shadow: 0 7px 18px rgba(20,184,166,.13);
+}
+
+.form-logo h3 {
+    font-size: 23px;
+}
+
+.form-logo p {
+    margin-top: 4px;
+    font-size: 9px;
+    letter-spacing: 2.5px;
+}
+
+.form-header {
+    margin-bottom: 22px;
+}
+
+.form-header h2 {
+    font-size: 25px;
+    letter-spacing: -.7px;
+}
+
+.form-header p {
+    margin-top: 6px;
+    font-size: 13px;
+}
+
+.input-group {
+    margin-bottom: 16px;
+}
+
+.input-group label {
+    margin-bottom: 7px;
+}
+
+.input-with-icon input {
+    height: 46px;
+    border-radius: 10px !important;
+}
+
+.form-row {
+    margin-top: 2px;
+    margin-bottom: 18px;
+}
+
+.btn-entrar {
+    height: 50px;
+    border-radius: 11px;
+    background: linear-gradient(135deg, #0b477e 0%, #1175aa 52%, #13b9c5 100%);
+}
+
+.login-divider {
+    margin: 20px 0 13px;
+}
+
+.demo-accounts {
+    gap: 7px;
+}
+
+.demo-account {
+    min-height: 55px;
+    padding: 8px 12px;
+    border-radius: 10px;
+}
+
+.demo-icon {
+    width: 34px;
+    height: 34px;
+}
+
+/* Nunca esconder a identidade da FATEC ou deixar textos sobrepostos */
+.dev-info,
+.dev-text,
+.fatec-logo,
+.bottom-script {
+    white-space: nowrap;
+}
+
+@media (max-height: 790px) and (min-width: 1101px) {
+    .login-brand { padding-top: 28px; padding-bottom: 20px; }
+    .brand-hero { margin-top: 44px; }
+    .feature-grid { margin-top: 24px; }
+    .feature-card { min-height: 98px; }
+    .brand-footer { padding-top: 14px; }
+    .login-form-container { padding-top: 22px; padding-bottom: 18px; }
+    .form-logo { margin-bottom: 16px; }
+    .form-header { margin-bottom: 16px; }
+    .input-group { margin-bottom: 12px; }
+    .login-divider { margin-top: 14px; }
+}
+
+@media (max-width: 1100px) {
+    .login-wrapper { height: auto; min-height: 100vh; }
+    .login-brand { flex-basis: 100%; width: 100%; min-height: 720px; }
+    .login-form-side { flex-basis: 100%; width: 100%; min-height: 720px; }
+    .login-brand::after { opacity: .35; }
+}
