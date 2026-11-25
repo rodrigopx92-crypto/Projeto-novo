@@ -1,8 +1,0 @@
-CLÍNICA BEM-ESTAR — VERSÃO MODERNA
-
-1. Abra a pasta no VS Code.
-2. Execute o index.html com o Live Server.
-3. Faça o login usando uma das contas de teste.
-4. A tela interna possui efeitos suaves ao clicar no menu, botões e cards.
-5. O script efeitos-clinica.js é apenas visual e não substitui o script principal.
-6. O sistema mantém a autoria: Rodrigo e Maisa — FATEC Americana.
